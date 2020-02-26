@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <title>
+        
+            currancy conversion
+        </title>
+
+    </head>
+    <script type="text/javascript">
+    function conversion() {
+       var request = new XMLHttpRequest()
+       var amt =0;
+        amt2 = document.getElementById('cur2').value;
+        amt1 =  document.getElementById('cur1').value;
+        amt = amt1+amt2;
+        
+       if(amt2==""){
+        base =  document.getElementById('curval1').value;
+        tar =  document.getElementById('curval2').value;
+       }
+       else if(amt1==""){
+        base =  document.getElementById('curval2').value;
+        tar =  document.getElementById('curval1').value;
+       }
+       
+        req = 'http://localhost:8081/Big5?baseCurrency='+ base +'&secondaryCurrency='+tar+'&amount='+amt
+        request.open('GET', req, true)
+        request.onload = function() {
+        // Begin accessing JSON data here
+        var data = JSON.parse(this.response)
+
+        if (request.status >= 200 && request.status < 400) {
+            console.log(data.data);
+            if(amt2==""){
+            document.getElementById('cur2').value = data.data;
+            }
+            else if(amt1==""){
+                document.getElementById('cur1').value = data.data;
+            }
+        } else {
+            console.log('error')
+        }
+    }
+    request.send()
+    }
+    </script>
+<body>
+    <br><br>
+    <div align="center">
+<input id="cur1" type="number">
+
+
+<select class="c1" id="curval1">
+    <!-- <option  value="USA">america</option> -->
+    <option  value="inr">indianRupees</option>
+    <option  value="thi">singapore$</option>
+    </select>
+    </div>
+    <br>
+    <br>
+    <div align="center">
+    <input id="cur2" type="number">
+  
+    <select class="c1" id="curval2">
+        <option  value="thi">singapore$</option>
+        <option  value="inr">indianRupees</option>
+        <!-- <option  value="USA">america</option> -->
+        </select>
+    </div>     
+        <br><br>
+        <div align="center">
+   <h1><button id="sub" onclick="conversion()">submit</button>  </h1>
+</div> 
+
+<h1 align="center">Clear the value in the text box to which you need answer before resubmitting</h1>
+</body>
+</html>
